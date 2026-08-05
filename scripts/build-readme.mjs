@@ -3,11 +3,11 @@
  * Rewrites the marker sections of README.md with live GitHub data.
  *
  * Run by .github/workflows/readme.yml (every 6 hours, on push to main, and
- * manually via "Run workflow"); that workflow commits README.md back to the
- * repository afterwards, so this script only has to touch the file on disk.
+ * manually via "Run workflow"); that workflow commits generated README assets
+ * back to the repository afterwards.
  *
  * Reads:  README.md, the GitHub REST API
- * Writes: README.md (in place)
+ * Writes: README.md (in place), assets/repo-links/*.svg
  * Env:    GITHUB_TOKEN — injected automatically inside Actions. Optional
  *         locally, but without it the API allows only 60 requests/hour.
  *
@@ -17,7 +17,8 @@
  * Run it locally from the repository root with:
  *   GITHUB_TOKEN=ghp_xxx node scripts/build-readme.mjs
  */
-import { readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 
 // --- Configuration --------------------------------------------------------
 // Baked in when the package was exported from the Profile README Studio.
@@ -26,6 +27,12 @@ import { readFileSync, writeFileSync } from "node:fs";
 const USER = "zhiyingzzhou";
 const FEATURED = ["ZhongAnTech/zarm","Kishanjvaghela/react-native-cardview","zhiyingzzhou/renewlet","zhiyingzzhou/LyRN"];
 const token = process.env.GITHUB_TOKEN;
+const LINK_ASSET_DIR = "assets/repo-links";
+const LINK_ASSET_BASE = `https://raw.githubusercontent.com/${USER}/${USER}/main/${LINK_ASSET_DIR}`;
+const LINK_COLOR = "#d2451e";
+const LINK_FONT_SIZE = 16;
+const LINK_HEIGHT = 20;
+const linkAssets = new Map();
 
 /**
  * Calls the GitHub REST API and returns the parsed JSON body.
@@ -54,6 +61,81 @@ const gh = async (path) => {
  * @returns {string}
  */
 const num = (n) => n.toLocaleString("en-US");
+
+/**
+ * Escapes text for HTML attributes and SVG text nodes.
+ *
+ * @param {string} s
+ * @returns {string}
+ */
+const esc = (s) =>
+  String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+
+/**
+ * Makes a filesystem-safe, stable slug for generated SVG link assets.
+ *
+ * @param {string} s
+ * @returns {string}
+ */
+const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "repo";
+
+/**
+ * Estimates rendered SVG text width. The SVG over-allocates slightly so GitHub's
+ * system-font fallback cannot clip long repository names.
+ *
+ * @param {string} text
+ * @returns {number}
+ */
+const textWidth = (text) => {
+  const units = [...text].reduce((sum, ch) => {
+    if (/[\u3000-\u9fff]/u.test(ch)) return sum + 1;
+    if (/[MW@#%&]/.test(ch)) return sum + 0.95;
+    if (/[A-Z]/.test(ch)) return sum + 0.72;
+    if (/[ilI1`'.,:;|!]/.test(ch)) return sum + 0.32;
+    if (/[-/\\]/.test(ch)) return sum + 0.42;
+    return sum + 0.58;
+  }, 0);
+  return Math.ceil(units * LINK_FONT_SIZE + 8);
+};
+
+/**
+ * Registers a generated orange SVG text link and returns the README HTML that
+ * keeps the visible link orange while preserving the real repository click.
+ *
+ * @param {any} repo GitHub repository object.
+ * @param {string} label Visible repository label.
+ * @returns {string}
+ */
+const repoLink = (repo, label) => {
+  const width = textWidth(label);
+  const file = `${slug(repo.full_name)}-${slug(label)}.svg`;
+  const safeLabel = esc(label);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${LINK_HEIGHT}" viewBox="0 0 ${width} ${LINK_HEIGHT}" role="img" aria-label="${safeLabel}">
+  <title>${safeLabel}</title>
+  <text x="0" y="16" fill="${LINK_COLOR}" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif" font-size="${LINK_FONT_SIZE}" font-weight="700">${safeLabel}</text>
+</svg>
+`;
+  linkAssets.set(file, svg);
+  return `<a href="${esc(repo.html_url)}"><img alt="${safeLabel}" src="${LINK_ASSET_BASE}/${file}" width="${width}" height="${LINK_HEIGHT}"></a>`;
+};
+
+/**
+ * Writes the generated orange link SVGs and removes stale SVGs from previous
+ * refreshes so renamed or removed repositories do not leave dead assets behind.
+ */
+const writeLinkAssets = () => {
+  mkdirSync(LINK_ASSET_DIR, { recursive: true });
+  for (const file of readdirSync(LINK_ASSET_DIR)) {
+    if (file.endsWith(".svg")) rmSync(join(LINK_ASSET_DIR, file));
+  }
+  for (const [file, svg] of linkAssets) {
+    writeFileSync(join(LINK_ASSET_DIR, file), svg);
+  }
+};
 
 // --- Every repository the user owns ---------------------------------------
 // sort=pushed puts the most recently touched repos first, which is exactly the
@@ -99,12 +181,12 @@ const projectRows = [
   "| Project | What it is | Stars | Language | Updated |",
   "| --- | --- | --: | --- | --- |",
   ...featured.map(
-    (r) =>
-      `| **[${
-        r.owner.login.toLowerCase() === USER.toLowerCase() ? r.name : r.full_name
-      }](${r.html_url})** | ${clean(r.description)} | ${num(r.stargazers_count)} | ${
+    (r) => {
+      const label = r.owner.login.toLowerCase() === USER.toLowerCase() ? r.name : r.full_name;
+      return `| ${repoLink(r, label)} | ${clean(r.description)} | ${num(r.stargazers_count)} | ${
         r.language ?? "—"
-      } | ${r.pushed_at.slice(0, 10)} |`,
+      } | ${r.pushed_at.slice(0, 10)} |`;
+    },
   ),
 ].join("\n");
 
@@ -113,7 +195,7 @@ const recent = own
   .slice(0, 5)
   .map(
     (r) =>
-      `- [\`${r.name}\`](${r.html_url}) — ${clean(r.description) || "no description"} · ${r.pushed_at.slice(0, 10)}`,
+      `- ${repoLink(r, r.name)} — ${clean(r.description) || "no description"} · ${r.pushed_at.slice(0, 10)}`,
   )
   .join("\n");
 
@@ -143,6 +225,7 @@ const replace = (key, body) => {
 replace("projects", projectRows);
 replace("recent", recent);
 replace("summary", summary);
+writeLinkAssets();
 writeFileSync("README.md", md);
 console.log("README refreshed:", totalStars, "stars across", own.length, "repos");
 

@@ -37,7 +37,7 @@ jobs:
             git fetch origin main
             git reset --hard FETCH_HEAD
             node scripts/build-readme.mjs
-            git add README.md
+            git add README.md assets/repo-links
 
             if git diff --quiet --cached; then
               echo "README is already up to date."

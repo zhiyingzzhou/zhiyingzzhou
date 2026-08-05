@@ -82,10 +82,10 @@ I build self-hosted products and browser tooling — TypeScript end to end, Clou
 <!--START_SECTION:projects-->
 | Project | What it is | Stars | Language | Updated |
 | --- | --- | --: | --- | --- |
-| **[ZhongAnTech/zarm](https://github.com/ZhongAnTech/zarm)** | 基于 React 的移动端 UI 组件库 | 1,723 | TypeScript | 2026-07-29 |
-| **[Kishanjvaghela/react-native-cardview](https://github.com/Kishanjvaghela/react-native-cardview)** | Native CardView for react-native (All Android version and iOS) | 506 | JavaScript | 2022-12-08 |
-| **[renewlet](https://github.com/zhiyingzzhou/renewlet)** | Self-hosted subscription tracker for recurring renewals, with timezone-aware reminders, ten notification channels, budgets, and spending insights. | 168 | TypeScript | 2026-08-05 |
-| **[LyRN](https://github.com/zhiyingzzhou/LyRN)** | A React-Native app simulting tongcheng App run on both Android and iOS | 8 | JavaScript | 2018-10-09 |
+| <a href="https://github.com/ZhongAnTech/zarm"><img alt="ZhongAnTech/zarm" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhongantech-zarm-zhongantech-zarm.svg" width="161" height="20"></a> | 基于 React 的移动端 UI 组件库 | 1,723 | TypeScript | 2026-07-29 |
+| <a href="https://github.com/Kishanjvaghela/react-native-cardview"><img alt="Kishanjvaghela/react-native-cardview" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/kishanjvaghela-react-native-cardview-kishanjvaghela-react-native-cardview.svg" width="320" height="20"></a> | Native CardView for react-native (All Android version and iOS) | 506 | JavaScript | 2022-12-08 |
+| <a href="https://github.com/zhiyingzzhou/renewlet"><img alt="renewlet" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhiyingzzhou-renewlet-renewlet.svg" width="79" height="20"></a> | Self-hosted subscription tracker for recurring renewals, with timezone-aware reminders, ten notification channels, budgets, and spending insights. | 168 | TypeScript | 2026-08-05 |
+| <a href="https://github.com/zhiyingzzhou/LyRN"><img alt="LyRN" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhiyingzzhou-lyrn-lyrn.svg" width="52" height="20"></a> | A React-Native app simulting tongcheng App run on both Android and iOS | 8 | JavaScript | 2018-10-09 |
 <!--END_SECTION:projects-->
 
 ### ▍By the numbers
@@ -130,11 +130,11 @@ I build self-hosted products and browser tooling — TypeScript end to end, Clou
 ### ▍Recently updated
 
 <!--START_SECTION:recent-->
-- [`zhiyingzzhou`](https://github.com/zhiyingzzhou/zhiyingzzhou) — no description · 2026-08-05
-- [`renewlet`](https://github.com/zhiyingzzhou/renewlet) — Self-hosted subscription tracker for recurring renewals, with timezone-aware reminders, ten notification channels, budgets, and spending insights. · 2026-08-05
-- [`engineering-skills`](https://github.com/zhiyingzzhou/engineering-skills) — no description · 2026-07-15
-- [`olyq`](https://github.com/zhiyingzzhou/olyq) — Olyq 是一个开源浏览器扩展。它把多模型对话、助手、话题、网页上下文、页面工具、Paint、搜索、远程 MCP、记忆和备份放进浏览器侧边栏，让你在当前网页旁边完成阅读、核验、写作、提取、图片生成和工具调用。 · 2026-07-13
-- [`sonarqube-issue-mcp`](https://github.com/zhiyingzzhou/sonarqube-issue-mcp) — 基于 SonarQube 项目 URL 查询 findings、overview、quality gate 与项目指标的 MCP 服务。 · 2026-03-23
+- <a href="https://github.com/zhiyingzzhou/zhiyingzzhou"><img alt="zhiyingzzhou" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhiyingzzhou-zhiyingzzhou-zhiyingzzhou.svg" width="112" height="20"></a> — no description · 2026-08-05
+- <a href="https://github.com/zhiyingzzhou/renewlet"><img alt="renewlet" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhiyingzzhou-renewlet-renewlet.svg" width="79" height="20"></a> — Self-hosted subscription tracker for recurring renewals, with timezone-aware reminders, ten notification channels, budgets, and spending insights. · 2026-08-05
+- <a href="https://github.com/zhiyingzzhou/engineering-skills"><img alt="engineering-skills" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhiyingzzhou-engineering-skills-engineering-skills.svg" width="152" height="20"></a> — no description · 2026-07-15
+- <a href="https://github.com/zhiyingzzhou/olyq"><img alt="olyq" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhiyingzzhou-olyq-olyq.svg" width="41" height="20"></a> — Olyq 是一个开源浏览器扩展。它把多模型对话、助手、话题、网页上下文、页面工具、Paint、搜索、远程 MCP、记忆和备份放进浏览器侧边栏，让你在当前网页旁边完成阅读、核验、写作、提取、图片生成和工具调用。 · 2026-07-13
+- <a href="https://github.com/zhiyingzzhou/sonarqube-issue-mcp"><img alt="sonarqube-issue-mcp" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhiyingzzhou-sonarqube-issue-mcp-sonarqube-issue-mcp.svg" width="176" height="20"></a> — 基于 SonarQube 项目 URL 查询 findings、overview、quality gate 与项目指标的 MCP 服务。 · 2026-03-23
 <!--END_SECTION:recent-->
 
 <div align="center">
