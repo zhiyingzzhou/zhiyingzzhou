@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="260" viewBox="0 0 1200 260" role="img" aria-label="Zhiying Zhou">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="60%" stop-color="#f6f8fa"/>
+      <stop offset="100%" stop-color="#fdefe9"/>
+    </linearGradient>
+    <linearGradient id="ember" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#d2451e"/>
+      <stop offset="100%" stop-color="#f0805f"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="88%" cy="12%" r="60%">
+      <stop offset="0%" stop-color="#d2451e" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#d2451e" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#1f2328" stroke-opacity="0.06"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="260" rx="16" fill="url(#bg)"/>
+  <rect width="1200" height="260" rx="16" fill="url(#grid)"/>
+  <rect width="1200" height="260" rx="16" fill="url(#glow)"/>
+  <rect x="0.5" y="0.5" width="1199" height="259" rx="16" fill="none" stroke="#d1d9e0"/>
+  <rect x="0" y="0" width="1200" height="3" fill="url(#ember)"/>
+  <g font-family="'JetBrains Mono','SFMono-Regular',ui-monospace,monospace">
+    <text x="72" y="96" fill="#d2451e" font-size="15" letter-spacing="7">GITHUB PROFILE</text>
+    <text x="72" y="164" fill="#111418" font-size="62" font-weight="700" letter-spacing="-1.5">Zhiying Zhou</text>
+    <text x="72" y="204" fill="#59636e" font-size="19">Full-stack engineer · shipping small, sharp tools</text>
+  </g>
+  <g transform="translate(1010 118)">
+    <circle r="62" fill="none" stroke="#d2451e" stroke-opacity="0.28" stroke-width="1.5"/>
+    <circle r="44" fill="none" stroke="#d2451e" stroke-opacity="0.45" stroke-width="1.5"/>
+    <circle r="9" fill="#d2451e"/>
+    <circle cx="62" cy="0" r="5" fill="#f0805f"/>
+    <circle cx="-44" cy="0" r="4" fill="#d2451e" fill-opacity="0.7"/>
+  </g>
+</svg>

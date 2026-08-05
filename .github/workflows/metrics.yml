@@ -1,0 +1,739 @@
+# Metrics — renders the profile dashboard SVGs.
+#
+# Trigger: every 6 hours, on push to main, or manually (Actions > Metrics > Run workflow).
+# Secret:  METRICS_TOKEN — a classic PAT with public_repo (or repo) + read:user + read:org.
+# Output:  assets/metrics-*-light.svg and assets/metrics-*-dark.svg, committed once after all renders succeed.
+# Note:    the README only changes after this workflow has run at least once.
+name: Metrics
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+concurrency:
+  group: profile-main-writer-${{ github.ref }}
+  queue: max
+
+permissions:
+  contents: write
+
+jobs:
+  overview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Overview panel (light)
+        uses: lowlighter/metrics@65836723097537a54cd8eb90f61839426b4266b6
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: zhiyingzzhou
+          filename: assets/metrics-overview-light.svg
+          output_action: none
+          template: classic
+          base: header, activity, community, repositories
+          config_display: large
+          config_timezone: Asia/Shanghai
+          extras_css: |
+            @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700");
+            @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700");
+            :root {
+              --color-calendar-graph-day-bg: #f6f8fa;
+              --color-calendar-graph-day-border: #d1d9e0;
+              --color-calendar-graph-day-L1-bg: #fbdccf;
+              --color-calendar-graph-day-L2-bg: #f4a288;
+              --color-calendar-graph-day-L3-bg: #e85d3a;
+              --color-calendar-graph-day-L4-bg: #b83b18;
+              --color-text-default: #1f2328;
+              --color-text-primary: #1f2328;
+              --color-text-secondary: #59636e;
+              --color-text-muted: #59636e;
+              --color-calendar-halloween-graph-day-L1-bg: #fbdccf;
+              --color-calendar-halloween-graph-day-L2-bg: #f4a288;
+              --color-calendar-halloween-graph-day-L3-bg: #e85d3a;
+              --color-calendar-halloween-graph-day-L4-bg: #b83b18;
+            }
+            svg, body, .items-wrapper, foreignObject > * { background: #ffffff !important; }
+            .background {
+              fill: #ffffff !important;
+              stroke: #d1d9e0 !important;
+              stroke-width: 1px !important;
+              rx: 12px !important;
+              ry: 12px !important;
+              filter: none !important;
+            }
+            body, .items-wrapper, .items-wrapper section, .row, .row .field, .row .field * {
+              font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace !important;
+              color: #1f2328 !important;
+            }
+            .row .field, .row .field * { font-size: 12px !important; }
+            .items-wrapper section > h2.field, .items-wrapper section > h2.field * {
+              font-family: "Space Grotesk", system-ui, sans-serif !important;
+              color: #d2451e !important;
+              font-weight: 700 !important;
+              letter-spacing: .02em !important;
+            }
+            .items-wrapper section > h1.field, .items-wrapper section > h1.field * {
+              font-family: "Space Grotesk", system-ui, sans-serif !important;
+              color: #d2451e !important;
+              font-weight: 700 !important;
+            }
+            .items-wrapper section:first-of-type > .row .field,
+             .items-wrapper section:first-of-type > .row .field * {
+              color: #59636e !important;
+            }
+            .avatar {
+              border: 1px solid #d1d9e0 !important;
+              border-radius: 50% !important;
+            }
+            .row .field > svg, .row .field > svg path, .row .field svg.octicon path {
+              fill: #59636e !important;
+              color: #59636e !important;
+            }
+            .items-wrapper section > h2.field > svg,
+             .items-wrapper section > h2.field > svg path {
+              fill: #d2451e !important;
+              color: #d2451e !important;
+            }
+            rect[fill="#ebedf0"], rect[fill="#EBEDF0"], path[fill="#ebedf0"],
+             rect.day[fill="#ebedf0"], rect.day[fill="#EBEDF0"] { fill: #f6f8fa !important; }
+            [style*="#ebedf0"] { background-color: #f6f8fa !important; }
+            rect[fill="#eff2f5"], rect[fill="#EFF2F5"], path[fill="#eff2f5"],
+             rect.day[fill="#eff2f5"], rect.day[fill="#EFF2F5"] { fill: #f6f8fa !important; }
+            [style*="#eff2f5"] { background-color: #f6f8fa !important; }
+            rect[fill="#161b22"], rect[fill="#161B22"], path[fill="#161b22"],
+             rect.day[fill="#161b22"], rect.day[fill="#161B22"] { fill: #f6f8fa !important; }
+            [style*="#161b22"] { background-color: #f6f8fa !important; }
+            rect[fill="#9be9a8"], rect[fill="#9BE9A8"], path[fill="#9be9a8"],
+             rect.day[fill="#9be9a8"], rect.day[fill="#9BE9A8"] { fill: #fbdccf !important; }
+            [style*="#9be9a8"] { background-color: #fbdccf !important; }
+            rect[fill="#0e4429"], rect[fill="#0E4429"], path[fill="#0e4429"],
+             rect.day[fill="#0e4429"], rect.day[fill="#0E4429"] { fill: #fbdccf !important; }
+            [style*="#0e4429"] { background-color: #fbdccf !important; }
+            rect[fill="#40c463"], rect[fill="#40C463"], path[fill="#40c463"],
+             rect.day[fill="#40c463"], rect.day[fill="#40C463"] { fill: #f4a288 !important; }
+            [style*="#40c463"] { background-color: #f4a288 !important; }
+            rect[fill="#006d32"], rect[fill="#006D32"], path[fill="#006d32"],
+             rect.day[fill="#006d32"], rect.day[fill="#006D32"] { fill: #f4a288 !important; }
+            [style*="#006d32"] { background-color: #f4a288 !important; }
+            rect[fill="#30a14e"], rect[fill="#30A14E"], path[fill="#30a14e"],
+             rect.day[fill="#30a14e"], rect.day[fill="#30A14E"] { fill: #e85d3a !important; }
+            [style*="#30a14e"] { background-color: #e85d3a !important; }
+            rect[fill="#26a641"], rect[fill="#26A641"], path[fill="#26a641"],
+             rect.day[fill="#26a641"], rect.day[fill="#26A641"] { fill: #e85d3a !important; }
+            [style*="#26a641"] { background-color: #e85d3a !important; }
+            rect[fill="#216e39"], rect[fill="#216E39"], path[fill="#216e39"],
+             rect.day[fill="#216e39"], rect.day[fill="#216E39"] { fill: #b83b18 !important; }
+            [style*="#216e39"] { background-color: #b83b18 !important; }
+            rect[fill="#39d353"], rect[fill="#39D353"], path[fill="#39d353"],
+             rect.day[fill="#39d353"], rect.day[fill="#39D353"] { fill: #b83b18 !important; }
+            [style*="#39d353"] { background-color: #b83b18 !important; }
+            rect.day, .calendar rect, .isocalendar rect, [class*="contribution"] rect {
+              stroke: none !important;
+              outline: none !important;
+            }
+            .item { padding: 4px 2px !important; }
+            section { margin-bottom: 6px !important; }
+
+      - name: Overview panel (dark)
+        uses: lowlighter/metrics@65836723097537a54cd8eb90f61839426b4266b6
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: zhiyingzzhou
+          filename: assets/metrics-overview-dark.svg
+          output_action: none
+          template: classic
+          base: header, activity, community, repositories
+          config_display: large
+          config_timezone: Asia/Shanghai
+          extras_css: |
+            @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700");
+            @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700");
+            :root {
+              --color-calendar-graph-day-bg: #232323;
+              --color-calendar-graph-day-border: #333333;
+              --color-calendar-graph-day-L1-bg: #4a2418;
+              --color-calendar-graph-day-L2-bg: #8a3a22;
+              --color-calendar-graph-day-L3-bg: #c04c2c;
+              --color-calendar-graph-day-L4-bg: #e85d3a;
+              --color-text-default: #d6d3d0;
+              --color-text-primary: #d6d3d0;
+              --color-text-secondary: #8a8580;
+              --color-text-muted: #8a8580;
+              --color-calendar-halloween-graph-day-L1-bg: #4a2418;
+              --color-calendar-halloween-graph-day-L2-bg: #8a3a22;
+              --color-calendar-halloween-graph-day-L3-bg: #c04c2c;
+              --color-calendar-halloween-graph-day-L4-bg: #e85d3a;
+            }
+            svg, body, .items-wrapper, foreignObject > * { background: #1a1a1a !important; }
+            .background {
+              fill: #1a1a1a !important;
+              stroke: #333333 !important;
+              stroke-width: 1px !important;
+              rx: 12px !important;
+              ry: 12px !important;
+              filter: none !important;
+            }
+            body, .items-wrapper, .items-wrapper section, .row, .row .field, .row .field * {
+              font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace !important;
+              color: #d6d3d0 !important;
+            }
+            .row .field, .row .field * { font-size: 12px !important; }
+            .items-wrapper section > h2.field, .items-wrapper section > h2.field * {
+              font-family: "Space Grotesk", system-ui, sans-serif !important;
+              color: #e85d3a !important;
+              font-weight: 700 !important;
+              letter-spacing: .02em !important;
+            }
+            .items-wrapper section > h1.field, .items-wrapper section > h1.field * {
+              font-family: "Space Grotesk", system-ui, sans-serif !important;
+              color: #e85d3a !important;
+              font-weight: 700 !important;
+            }
+            .items-wrapper section:first-of-type > .row .field,
+             .items-wrapper section:first-of-type > .row .field * {
+              color: #8a8580 !important;
+            }
+            .avatar {
+              border: 1px solid #333333 !important;
+              border-radius: 50% !important;
+            }
+            .row .field > svg, .row .field > svg path, .row .field svg.octicon path {
+              fill: #8a8580 !important;
+              color: #8a8580 !important;
+            }
+            .items-wrapper section > h2.field > svg,
+             .items-wrapper section > h2.field > svg path {
+              fill: #e85d3a !important;
+              color: #e85d3a !important;
+            }
+            rect[fill="#ebedf0"], rect[fill="#EBEDF0"], path[fill="#ebedf0"],
+             rect.day[fill="#ebedf0"], rect.day[fill="#EBEDF0"] { fill: #232323 !important; }
+            [style*="#ebedf0"] { background-color: #232323 !important; }
+            rect[fill="#eff2f5"], rect[fill="#EFF2F5"], path[fill="#eff2f5"],
+             rect.day[fill="#eff2f5"], rect.day[fill="#EFF2F5"] { fill: #232323 !important; }
+            [style*="#eff2f5"] { background-color: #232323 !important; }
+            rect[fill="#161b22"], rect[fill="#161B22"], path[fill="#161b22"],
+             rect.day[fill="#161b22"], rect.day[fill="#161B22"] { fill: #232323 !important; }
+            [style*="#161b22"] { background-color: #232323 !important; }
+            rect[fill="#9be9a8"], rect[fill="#9BE9A8"], path[fill="#9be9a8"],
+             rect.day[fill="#9be9a8"], rect.day[fill="#9BE9A8"] { fill: #4a2418 !important; }
+            [style*="#9be9a8"] { background-color: #4a2418 !important; }
+            rect[fill="#0e4429"], rect[fill="#0E4429"], path[fill="#0e4429"],
+             rect.day[fill="#0e4429"], rect.day[fill="#0E4429"] { fill: #4a2418 !important; }
+            [style*="#0e4429"] { background-color: #4a2418 !important; }
+            rect[fill="#40c463"], rect[fill="#40C463"], path[fill="#40c463"],
+             rect.day[fill="#40c463"], rect.day[fill="#40C463"] { fill: #8a3a22 !important; }
+            [style*="#40c463"] { background-color: #8a3a22 !important; }
+            rect[fill="#006d32"], rect[fill="#006D32"], path[fill="#006d32"],
+             rect.day[fill="#006d32"], rect.day[fill="#006D32"] { fill: #8a3a22 !important; }
+            [style*="#006d32"] { background-color: #8a3a22 !important; }
+            rect[fill="#30a14e"], rect[fill="#30A14E"], path[fill="#30a14e"],
+             rect.day[fill="#30a14e"], rect.day[fill="#30A14E"] { fill: #c04c2c !important; }
+            [style*="#30a14e"] { background-color: #c04c2c !important; }
+            rect[fill="#26a641"], rect[fill="#26A641"], path[fill="#26a641"],
+             rect.day[fill="#26a641"], rect.day[fill="#26A641"] { fill: #c04c2c !important; }
+            [style*="#26a641"] { background-color: #c04c2c !important; }
+            rect[fill="#216e39"], rect[fill="#216E39"], path[fill="#216e39"],
+             rect.day[fill="#216e39"], rect.day[fill="#216E39"] { fill: #e85d3a !important; }
+            [style*="#216e39"] { background-color: #e85d3a !important; }
+            rect[fill="#39d353"], rect[fill="#39D353"], path[fill="#39d353"],
+             rect.day[fill="#39d353"], rect.day[fill="#39D353"] { fill: #e85d3a !important; }
+            [style*="#39d353"] { background-color: #e85d3a !important; }
+            rect.day, .calendar rect, .isocalendar rect, [class*="contribution"] rect {
+              stroke: none !important;
+              outline: none !important;
+            }
+            .item { padding: 4px 2px !important; }
+            section { margin-bottom: 6px !important; }
+
+      - name: Language breakdown (light)
+        uses: lowlighter/metrics@65836723097537a54cd8eb90f61839426b4266b6
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: zhiyingzzhou
+          filename: assets/metrics-languages-light.svg
+          output_action: none
+          base: ""
+          plugin_languages: yes
+          plugin_languages_ignored: html, css, less, scss, sass
+          plugin_languages_details: bytes-size, percentage
+          plugin_languages_limit: 8
+          plugin_languages_sections: most-used
+          plugin_languages_colors: "0:#d2451e, 1:#f0805f"
+          config_timezone: Asia/Shanghai
+          extras_css: |
+            @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700");
+            @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700");
+            :root {
+              --color-calendar-graph-day-bg: #f6f8fa;
+              --color-calendar-graph-day-border: #d1d9e0;
+              --color-calendar-graph-day-L1-bg: #fbdccf;
+              --color-calendar-graph-day-L2-bg: #f4a288;
+              --color-calendar-graph-day-L3-bg: #e85d3a;
+              --color-calendar-graph-day-L4-bg: #b83b18;
+              --color-text-default: #1f2328;
+              --color-text-primary: #1f2328;
+              --color-text-secondary: #59636e;
+              --color-text-muted: #59636e;
+              --color-calendar-halloween-graph-day-L1-bg: #fbdccf;
+              --color-calendar-halloween-graph-day-L2-bg: #f4a288;
+              --color-calendar-halloween-graph-day-L3-bg: #e85d3a;
+              --color-calendar-halloween-graph-day-L4-bg: #b83b18;
+            }
+            svg, body, .items-wrapper, foreignObject > * { background: #ffffff !important; }
+            .background {
+              fill: #ffffff !important;
+              stroke: #d1d9e0 !important;
+              stroke-width: 1px !important;
+              rx: 12px !important;
+              ry: 12px !important;
+              filter: none !important;
+            }
+            body, .items-wrapper, .items-wrapper section, .row, .row .field, .row .field * {
+              font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace !important;
+              color: #1f2328 !important;
+            }
+            .row .field, .row .field * { font-size: 12px !important; }
+            .items-wrapper section > h2.field, .items-wrapper section > h2.field * {
+              font-family: "Space Grotesk", system-ui, sans-serif !important;
+              color: #d2451e !important;
+              font-weight: 700 !important;
+              letter-spacing: .02em !important;
+            }
+            .items-wrapper section > h1.field, .items-wrapper section > h1.field * {
+              font-family: "Space Grotesk", system-ui, sans-serif !important;
+              color: #d2451e !important;
+              font-weight: 700 !important;
+            }
+            .items-wrapper section:first-of-type > .row .field,
+             .items-wrapper section:first-of-type > .row .field * {
+              color: #59636e !important;
+            }
+            .avatar {
+              border: 1px solid #d1d9e0 !important;
+              border-radius: 50% !important;
+            }
+            .row .field > svg, .row .field > svg path, .row .field svg.octicon path {
+              fill: #59636e !important;
+              color: #59636e !important;
+            }
+            .items-wrapper section > h2.field > svg,
+             .items-wrapper section > h2.field > svg path {
+              fill: #d2451e !important;
+              color: #d2451e !important;
+            }
+            rect[fill="#ebedf0"], rect[fill="#EBEDF0"], path[fill="#ebedf0"],
+             rect.day[fill="#ebedf0"], rect.day[fill="#EBEDF0"] { fill: #f6f8fa !important; }
+            [style*="#ebedf0"] { background-color: #f6f8fa !important; }
+            rect[fill="#eff2f5"], rect[fill="#EFF2F5"], path[fill="#eff2f5"],
+             rect.day[fill="#eff2f5"], rect.day[fill="#EFF2F5"] { fill: #f6f8fa !important; }
+            [style*="#eff2f5"] { background-color: #f6f8fa !important; }
+            rect[fill="#161b22"], rect[fill="#161B22"], path[fill="#161b22"],
+             rect.day[fill="#161b22"], rect.day[fill="#161B22"] { fill: #f6f8fa !important; }
+            [style*="#161b22"] { background-color: #f6f8fa !important; }
+            rect[fill="#9be9a8"], rect[fill="#9BE9A8"], path[fill="#9be9a8"],
+             rect.day[fill="#9be9a8"], rect.day[fill="#9BE9A8"] { fill: #fbdccf !important; }
+            [style*="#9be9a8"] { background-color: #fbdccf !important; }
+            rect[fill="#0e4429"], rect[fill="#0E4429"], path[fill="#0e4429"],
+             rect.day[fill="#0e4429"], rect.day[fill="#0E4429"] { fill: #fbdccf !important; }
+            [style*="#0e4429"] { background-color: #fbdccf !important; }
+            rect[fill="#40c463"], rect[fill="#40C463"], path[fill="#40c463"],
+             rect.day[fill="#40c463"], rect.day[fill="#40C463"] { fill: #f4a288 !important; }
+            [style*="#40c463"] { background-color: #f4a288 !important; }
+            rect[fill="#006d32"], rect[fill="#006D32"], path[fill="#006d32"],
+             rect.day[fill="#006d32"], rect.day[fill="#006D32"] { fill: #f4a288 !important; }
+            [style*="#006d32"] { background-color: #f4a288 !important; }
+            rect[fill="#30a14e"], rect[fill="#30A14E"], path[fill="#30a14e"],
+             rect.day[fill="#30a14e"], rect.day[fill="#30A14E"] { fill: #e85d3a !important; }
+            [style*="#30a14e"] { background-color: #e85d3a !important; }
+            rect[fill="#26a641"], rect[fill="#26A641"], path[fill="#26a641"],
+             rect.day[fill="#26a641"], rect.day[fill="#26A641"] { fill: #e85d3a !important; }
+            [style*="#26a641"] { background-color: #e85d3a !important; }
+            rect[fill="#216e39"], rect[fill="#216E39"], path[fill="#216e39"],
+             rect.day[fill="#216e39"], rect.day[fill="#216E39"] { fill: #b83b18 !important; }
+            [style*="#216e39"] { background-color: #b83b18 !important; }
+            rect[fill="#39d353"], rect[fill="#39D353"], path[fill="#39d353"],
+             rect.day[fill="#39d353"], rect.day[fill="#39D353"] { fill: #b83b18 !important; }
+            [style*="#39d353"] { background-color: #b83b18 !important; }
+            rect.day, .calendar rect, .isocalendar rect, [class*="contribution"] rect {
+              stroke: none !important;
+              outline: none !important;
+            }
+            .item { padding: 4px 2px !important; }
+            section { margin-bottom: 6px !important; }
+
+      - name: Language breakdown (dark)
+        uses: lowlighter/metrics@65836723097537a54cd8eb90f61839426b4266b6
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: zhiyingzzhou
+          filename: assets/metrics-languages-dark.svg
+          output_action: none
+          base: ""
+          plugin_languages: yes
+          plugin_languages_ignored: html, css, less, scss, sass
+          plugin_languages_details: bytes-size, percentage
+          plugin_languages_limit: 8
+          plugin_languages_sections: most-used
+          plugin_languages_colors: "0:#e85d3a, 1:#f2a58c"
+          config_timezone: Asia/Shanghai
+          extras_css: |
+            @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700");
+            @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700");
+            :root {
+              --color-calendar-graph-day-bg: #232323;
+              --color-calendar-graph-day-border: #333333;
+              --color-calendar-graph-day-L1-bg: #4a2418;
+              --color-calendar-graph-day-L2-bg: #8a3a22;
+              --color-calendar-graph-day-L3-bg: #c04c2c;
+              --color-calendar-graph-day-L4-bg: #e85d3a;
+              --color-text-default: #d6d3d0;
+              --color-text-primary: #d6d3d0;
+              --color-text-secondary: #8a8580;
+              --color-text-muted: #8a8580;
+              --color-calendar-halloween-graph-day-L1-bg: #4a2418;
+              --color-calendar-halloween-graph-day-L2-bg: #8a3a22;
+              --color-calendar-halloween-graph-day-L3-bg: #c04c2c;
+              --color-calendar-halloween-graph-day-L4-bg: #e85d3a;
+            }
+            svg, body, .items-wrapper, foreignObject > * { background: #1a1a1a !important; }
+            .background {
+              fill: #1a1a1a !important;
+              stroke: #333333 !important;
+              stroke-width: 1px !important;
+              rx: 12px !important;
+              ry: 12px !important;
+              filter: none !important;
+            }
+            body, .items-wrapper, .items-wrapper section, .row, .row .field, .row .field * {
+              font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace !important;
+              color: #d6d3d0 !important;
+            }
+            .row .field, .row .field * { font-size: 12px !important; }
+            .items-wrapper section > h2.field, .items-wrapper section > h2.field * {
+              font-family: "Space Grotesk", system-ui, sans-serif !important;
+              color: #e85d3a !important;
+              font-weight: 700 !important;
+              letter-spacing: .02em !important;
+            }
+            .items-wrapper section > h1.field, .items-wrapper section > h1.field * {
+              font-family: "Space Grotesk", system-ui, sans-serif !important;
+              color: #e85d3a !important;
+              font-weight: 700 !important;
+            }
+            .items-wrapper section:first-of-type > .row .field,
+             .items-wrapper section:first-of-type > .row .field * {
+              color: #8a8580 !important;
+            }
+            .avatar {
+              border: 1px solid #333333 !important;
+              border-radius: 50% !important;
+            }
+            .row .field > svg, .row .field > svg path, .row .field svg.octicon path {
+              fill: #8a8580 !important;
+              color: #8a8580 !important;
+            }
+            .items-wrapper section > h2.field > svg,
+             .items-wrapper section > h2.field > svg path {
+              fill: #e85d3a !important;
+              color: #e85d3a !important;
+            }
+            rect[fill="#ebedf0"], rect[fill="#EBEDF0"], path[fill="#ebedf0"],
+             rect.day[fill="#ebedf0"], rect.day[fill="#EBEDF0"] { fill: #232323 !important; }
+            [style*="#ebedf0"] { background-color: #232323 !important; }
+            rect[fill="#eff2f5"], rect[fill="#EFF2F5"], path[fill="#eff2f5"],
+             rect.day[fill="#eff2f5"], rect.day[fill="#EFF2F5"] { fill: #232323 !important; }
+            [style*="#eff2f5"] { background-color: #232323 !important; }
+            rect[fill="#161b22"], rect[fill="#161B22"], path[fill="#161b22"],
+             rect.day[fill="#161b22"], rect.day[fill="#161B22"] { fill: #232323 !important; }
+            [style*="#161b22"] { background-color: #232323 !important; }
+            rect[fill="#9be9a8"], rect[fill="#9BE9A8"], path[fill="#9be9a8"],
+             rect.day[fill="#9be9a8"], rect.day[fill="#9BE9A8"] { fill: #4a2418 !important; }
+            [style*="#9be9a8"] { background-color: #4a2418 !important; }
+            rect[fill="#0e4429"], rect[fill="#0E4429"], path[fill="#0e4429"],
+             rect.day[fill="#0e4429"], rect.day[fill="#0E4429"] { fill: #4a2418 !important; }
+            [style*="#0e4429"] { background-color: #4a2418 !important; }
+            rect[fill="#40c463"], rect[fill="#40C463"], path[fill="#40c463"],
+             rect.day[fill="#40c463"], rect.day[fill="#40C463"] { fill: #8a3a22 !important; }
+            [style*="#40c463"] { background-color: #8a3a22 !important; }
+            rect[fill="#006d32"], rect[fill="#006D32"], path[fill="#006d32"],
+             rect.day[fill="#006d32"], rect.day[fill="#006D32"] { fill: #8a3a22 !important; }
+            [style*="#006d32"] { background-color: #8a3a22 !important; }
+            rect[fill="#30a14e"], rect[fill="#30A14E"], path[fill="#30a14e"],
+             rect.day[fill="#30a14e"], rect.day[fill="#30A14E"] { fill: #c04c2c !important; }
+            [style*="#30a14e"] { background-color: #c04c2c !important; }
+            rect[fill="#26a641"], rect[fill="#26A641"], path[fill="#26a641"],
+             rect.day[fill="#26a641"], rect.day[fill="#26A641"] { fill: #c04c2c !important; }
+            [style*="#26a641"] { background-color: #c04c2c !important; }
+            rect[fill="#216e39"], rect[fill="#216E39"], path[fill="#216e39"],
+             rect.day[fill="#216e39"], rect.day[fill="#216E39"] { fill: #e85d3a !important; }
+            [style*="#216e39"] { background-color: #e85d3a !important; }
+            rect[fill="#39d353"], rect[fill="#39D353"], path[fill="#39d353"],
+             rect.day[fill="#39d353"], rect.day[fill="#39D353"] { fill: #e85d3a !important; }
+            [style*="#39d353"] { background-color: #e85d3a !important; }
+            rect.day, .calendar rect, .isocalendar rect, [class*="contribution"] rect {
+              stroke: none !important;
+              outline: none !important;
+            }
+            .item { padding: 4px 2px !important; }
+            section { margin-bottom: 6px !important; }
+
+      - name: Contribution calendar (light)
+        uses: lowlighter/metrics@65836723097537a54cd8eb90f61839426b4266b6
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: zhiyingzzhou
+          filename: assets/metrics-calendar-light.svg
+          output_action: none
+          base: ""
+          plugin_isocalendar: yes
+          plugin_isocalendar_duration: full-year
+          config_timezone: Asia/Shanghai
+          extras_css: |
+            @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700");
+            @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700");
+            :root {
+              --color-calendar-graph-day-bg: #f6f8fa;
+              --color-calendar-graph-day-border: #d1d9e0;
+              --color-calendar-graph-day-L1-bg: #fbdccf;
+              --color-calendar-graph-day-L2-bg: #f4a288;
+              --color-calendar-graph-day-L3-bg: #e85d3a;
+              --color-calendar-graph-day-L4-bg: #b83b18;
+              --color-text-default: #1f2328;
+              --color-text-primary: #1f2328;
+              --color-text-secondary: #59636e;
+              --color-text-muted: #59636e;
+              --color-calendar-halloween-graph-day-L1-bg: #fbdccf;
+              --color-calendar-halloween-graph-day-L2-bg: #f4a288;
+              --color-calendar-halloween-graph-day-L3-bg: #e85d3a;
+              --color-calendar-halloween-graph-day-L4-bg: #b83b18;
+            }
+            svg, body, .items-wrapper, foreignObject > * { background: #ffffff !important; }
+            .background {
+              fill: #ffffff !important;
+              stroke: #d1d9e0 !important;
+              stroke-width: 1px !important;
+              rx: 12px !important;
+              ry: 12px !important;
+              filter: none !important;
+            }
+            body, .items-wrapper, .items-wrapper section, .row, .row .field, .row .field * {
+              font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace !important;
+              color: #1f2328 !important;
+            }
+            .row .field, .row .field * { font-size: 12px !important; }
+            .items-wrapper section > h2.field, .items-wrapper section > h2.field * {
+              font-family: "Space Grotesk", system-ui, sans-serif !important;
+              color: #d2451e !important;
+              font-weight: 700 !important;
+              letter-spacing: .02em !important;
+            }
+            .items-wrapper section > h1.field, .items-wrapper section > h1.field * {
+              font-family: "Space Grotesk", system-ui, sans-serif !important;
+              color: #d2451e !important;
+              font-weight: 700 !important;
+            }
+            .items-wrapper section:first-of-type > .row .field,
+             .items-wrapper section:first-of-type > .row .field * {
+              color: #59636e !important;
+            }
+            .avatar {
+              border: 1px solid #d1d9e0 !important;
+              border-radius: 50% !important;
+            }
+            .row .field > svg, .row .field > svg path, .row .field svg.octicon path {
+              fill: #59636e !important;
+              color: #59636e !important;
+            }
+            .items-wrapper section > h2.field > svg,
+             .items-wrapper section > h2.field > svg path {
+              fill: #d2451e !important;
+              color: #d2451e !important;
+            }
+            rect[fill="#ebedf0"], rect[fill="#EBEDF0"], path[fill="#ebedf0"],
+             rect.day[fill="#ebedf0"], rect.day[fill="#EBEDF0"] { fill: #f6f8fa !important; }
+            [style*="#ebedf0"] { background-color: #f6f8fa !important; }
+            rect[fill="#eff2f5"], rect[fill="#EFF2F5"], path[fill="#eff2f5"],
+             rect.day[fill="#eff2f5"], rect.day[fill="#EFF2F5"] { fill: #f6f8fa !important; }
+            [style*="#eff2f5"] { background-color: #f6f8fa !important; }
+            rect[fill="#161b22"], rect[fill="#161B22"], path[fill="#161b22"],
+             rect.day[fill="#161b22"], rect.day[fill="#161B22"] { fill: #f6f8fa !important; }
+            [style*="#161b22"] { background-color: #f6f8fa !important; }
+            rect[fill="#9be9a8"], rect[fill="#9BE9A8"], path[fill="#9be9a8"],
+             rect.day[fill="#9be9a8"], rect.day[fill="#9BE9A8"] { fill: #fbdccf !important; }
+            [style*="#9be9a8"] { background-color: #fbdccf !important; }
+            rect[fill="#0e4429"], rect[fill="#0E4429"], path[fill="#0e4429"],
+             rect.day[fill="#0e4429"], rect.day[fill="#0E4429"] { fill: #fbdccf !important; }
+            [style*="#0e4429"] { background-color: #fbdccf !important; }
+            rect[fill="#40c463"], rect[fill="#40C463"], path[fill="#40c463"],
+             rect.day[fill="#40c463"], rect.day[fill="#40C463"] { fill: #f4a288 !important; }
+            [style*="#40c463"] { background-color: #f4a288 !important; }
+            rect[fill="#006d32"], rect[fill="#006D32"], path[fill="#006d32"],
+             rect.day[fill="#006d32"], rect.day[fill="#006D32"] { fill: #f4a288 !important; }
+            [style*="#006d32"] { background-color: #f4a288 !important; }
+            rect[fill="#30a14e"], rect[fill="#30A14E"], path[fill="#30a14e"],
+             rect.day[fill="#30a14e"], rect.day[fill="#30A14E"] { fill: #e85d3a !important; }
+            [style*="#30a14e"] { background-color: #e85d3a !important; }
+            rect[fill="#26a641"], rect[fill="#26A641"], path[fill="#26a641"],
+             rect.day[fill="#26a641"], rect.day[fill="#26A641"] { fill: #e85d3a !important; }
+            [style*="#26a641"] { background-color: #e85d3a !important; }
+            rect[fill="#216e39"], rect[fill="#216E39"], path[fill="#216e39"],
+             rect.day[fill="#216e39"], rect.day[fill="#216E39"] { fill: #b83b18 !important; }
+            [style*="#216e39"] { background-color: #b83b18 !important; }
+            rect[fill="#39d353"], rect[fill="#39D353"], path[fill="#39d353"],
+             rect.day[fill="#39d353"], rect.day[fill="#39D353"] { fill: #b83b18 !important; }
+            [style*="#39d353"] { background-color: #b83b18 !important; }
+            rect.day, .calendar rect, .isocalendar rect, [class*="contribution"] rect {
+              stroke: none !important;
+              outline: none !important;
+            }
+            .item { padding: 4px 2px !important; }
+            section { margin-bottom: 6px !important; }
+
+      - name: Contribution calendar (dark)
+        uses: lowlighter/metrics@65836723097537a54cd8eb90f61839426b4266b6
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: zhiyingzzhou
+          filename: assets/metrics-calendar-dark.svg
+          output_action: none
+          base: ""
+          plugin_isocalendar: yes
+          plugin_isocalendar_duration: full-year
+          config_timezone: Asia/Shanghai
+          extras_css: |
+            @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700");
+            @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700");
+            :root {
+              --color-calendar-graph-day-bg: #232323;
+              --color-calendar-graph-day-border: #333333;
+              --color-calendar-graph-day-L1-bg: #4a2418;
+              --color-calendar-graph-day-L2-bg: #8a3a22;
+              --color-calendar-graph-day-L3-bg: #c04c2c;
+              --color-calendar-graph-day-L4-bg: #e85d3a;
+              --color-text-default: #d6d3d0;
+              --color-text-primary: #d6d3d0;
+              --color-text-secondary: #8a8580;
+              --color-text-muted: #8a8580;
+              --color-calendar-halloween-graph-day-L1-bg: #4a2418;
+              --color-calendar-halloween-graph-day-L2-bg: #8a3a22;
+              --color-calendar-halloween-graph-day-L3-bg: #c04c2c;
+              --color-calendar-halloween-graph-day-L4-bg: #e85d3a;
+            }
+            svg, body, .items-wrapper, foreignObject > * { background: #1a1a1a !important; }
+            .background {
+              fill: #1a1a1a !important;
+              stroke: #333333 !important;
+              stroke-width: 1px !important;
+              rx: 12px !important;
+              ry: 12px !important;
+              filter: none !important;
+            }
+            body, .items-wrapper, .items-wrapper section, .row, .row .field, .row .field * {
+              font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace !important;
+              color: #d6d3d0 !important;
+            }
+            .row .field, .row .field * { font-size: 12px !important; }
+            .items-wrapper section > h2.field, .items-wrapper section > h2.field * {
+              font-family: "Space Grotesk", system-ui, sans-serif !important;
+              color: #e85d3a !important;
+              font-weight: 700 !important;
+              letter-spacing: .02em !important;
+            }
+            .items-wrapper section > h1.field, .items-wrapper section > h1.field * {
+              font-family: "Space Grotesk", system-ui, sans-serif !important;
+              color: #e85d3a !important;
+              font-weight: 700 !important;
+            }
+            .items-wrapper section:first-of-type > .row .field,
+             .items-wrapper section:first-of-type > .row .field * {
+              color: #8a8580 !important;
+            }
+            .avatar {
+              border: 1px solid #333333 !important;
+              border-radius: 50% !important;
+            }
+            .row .field > svg, .row .field > svg path, .row .field svg.octicon path {
+              fill: #8a8580 !important;
+              color: #8a8580 !important;
+            }
+            .items-wrapper section > h2.field > svg,
+             .items-wrapper section > h2.field > svg path {
+              fill: #e85d3a !important;
+              color: #e85d3a !important;
+            }
+            rect[fill="#ebedf0"], rect[fill="#EBEDF0"], path[fill="#ebedf0"],
+             rect.day[fill="#ebedf0"], rect.day[fill="#EBEDF0"] { fill: #232323 !important; }
+            [style*="#ebedf0"] { background-color: #232323 !important; }
+            rect[fill="#eff2f5"], rect[fill="#EFF2F5"], path[fill="#eff2f5"],
+             rect.day[fill="#eff2f5"], rect.day[fill="#EFF2F5"] { fill: #232323 !important; }
+            [style*="#eff2f5"] { background-color: #232323 !important; }
+            rect[fill="#161b22"], rect[fill="#161B22"], path[fill="#161b22"],
+             rect.day[fill="#161b22"], rect.day[fill="#161B22"] { fill: #232323 !important; }
+            [style*="#161b22"] { background-color: #232323 !important; }
+            rect[fill="#9be9a8"], rect[fill="#9BE9A8"], path[fill="#9be9a8"],
+             rect.day[fill="#9be9a8"], rect.day[fill="#9BE9A8"] { fill: #4a2418 !important; }
+            [style*="#9be9a8"] { background-color: #4a2418 !important; }
+            rect[fill="#0e4429"], rect[fill="#0E4429"], path[fill="#0e4429"],
+             rect.day[fill="#0e4429"], rect.day[fill="#0E4429"] { fill: #4a2418 !important; }
+            [style*="#0e4429"] { background-color: #4a2418 !important; }
+            rect[fill="#40c463"], rect[fill="#40C463"], path[fill="#40c463"],
+             rect.day[fill="#40c463"], rect.day[fill="#40C463"] { fill: #8a3a22 !important; }
+            [style*="#40c463"] { background-color: #8a3a22 !important; }
+            rect[fill="#006d32"], rect[fill="#006D32"], path[fill="#006d32"],
+             rect.day[fill="#006d32"], rect.day[fill="#006D32"] { fill: #8a3a22 !important; }
+            [style*="#006d32"] { background-color: #8a3a22 !important; }
+            rect[fill="#30a14e"], rect[fill="#30A14E"], path[fill="#30a14e"],
+             rect.day[fill="#30a14e"], rect.day[fill="#30A14E"] { fill: #c04c2c !important; }
+            [style*="#30a14e"] { background-color: #c04c2c !important; }
+            rect[fill="#26a641"], rect[fill="#26A641"], path[fill="#26a641"],
+             rect.day[fill="#26a641"], rect.day[fill="#26A641"] { fill: #c04c2c !important; }
+            [style*="#26a641"] { background-color: #c04c2c !important; }
+            rect[fill="#216e39"], rect[fill="#216E39"], path[fill="#216e39"],
+             rect.day[fill="#216e39"], rect.day[fill="#216E39"] { fill: #e85d3a !important; }
+            [style*="#216e39"] { background-color: #e85d3a !important; }
+            rect[fill="#39d353"], rect[fill="#39D353"], path[fill="#39d353"],
+             rect.day[fill="#39d353"], rect.day[fill="#39D353"] { fill: #e85d3a !important; }
+            [style*="#39d353"] { background-color: #e85d3a !important; }
+            rect.day, .calendar rect, .isocalendar rect, [class*="contribution"] rect {
+              stroke: none !important;
+              outline: none !important;
+            }
+            .item { padding: 4px 2px !important; }
+            section { margin-bottom: 6px !important; }
+
+      - name: Publish metrics assets
+        run: |
+          render_dir="$(mktemp -d)"
+          sudo cp /metrics_renders/assets/*.svg "$render_dir"/
+          sudo chown -R "$(id -u):$(id -g)" "$render_dir"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard FETCH_HEAD
+
+            mkdir -p assets
+            cp "$render_dir"/*.svg assets/
+            git add assets/metrics-*.svg
+
+            if git diff --quiet --cached; then
+              echo "Metrics assets are already up to date."
+              exit 0
+            fi
+
+            git commit -m "chore: update metrics assets [skip ci]"
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+
+            echo "Push failed on attempt $attempt; retrying from latest origin/main."
+          done
+
+          echo "Failed to publish metrics assets after 3 attempts."
+          exit 1

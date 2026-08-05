@@ -1,0 +1,58 @@
+# Refresh README — updates the live numbers inside README.md.
+#
+# Trigger: every 6 hours (offset from Metrics), on push to main, or manually.
+# Secret:  none beyond the built-in GITHUB_TOKEN.
+# Output:  runs scripts/build-readme.mjs, which rewrites the
+#          <!--START_SECTION:*--> blocks, then commits README.md back to main.
+name: Refresh README
+
+on:
+  schedule:
+    - cron: "15 */6 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+concurrency:
+  group: profile-main-writer-${{ github.ref }}
+  queue: max
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Refresh and publish README
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard FETCH_HEAD
+            node scripts/build-readme.mjs
+            git add README.md
+
+            if git diff --quiet --cached; then
+              echo "README is already up to date."
+              exit 0
+            fi
+
+            git commit -m "chore: refresh README stats [skip ci]"
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+
+            echo "Push failed on attempt $attempt; retrying from latest origin/main."
+          done
+
+          echo "Failed to publish README after 3 attempts."
+          exit 1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
