@@ -17,7 +17,7 @@
 <div align="center">
 
 <!--START_SECTION:summary-->
-`192` stars earned · `47` public repos · `29` followers · refreshed `2026-08-06 01:21 UTC`
+`192` stars earned · `47` public repos · `29` followers · refreshed `2026-08-06 01:26 UTC`
 <!--END_SECTION:summary-->
 
 </div>
@@ -147,7 +147,7 @@ I build self-hosted products and browser tooling — TypeScript end to end, Clou
 ### ▍Recently updated
 
 <!--START_SECTION:recent-->
-- <a href="https://github.com/zhiyingzzhou/zhiyingzzhou"><img alt="zhiyingzzhou" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhiyingzzhou-zhiyingzzhou-zhiyingzzhou-compact.svg" width="106" height="20"></a> — no description · 2026-08-05
+- <a href="https://github.com/zhiyingzzhou/zhiyingzzhou"><img alt="zhiyingzzhou" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhiyingzzhou-zhiyingzzhou-zhiyingzzhou-compact.svg" width="106" height="20"></a> — no description · 2026-08-06
 - <a href="https://github.com/zhiyingzzhou/renewlet"><img alt="renewlet" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhiyingzzhou-renewlet-renewlet-compact.svg" width="73" height="20"></a> — Self-hosted subscription tracker for recurring renewals, with timezone-aware reminders, ten notification channels, budgets, and spending insights. · 2026-08-05
 - <a href="https://github.com/zhiyingzzhou/engineering-skills"><img alt="engineering-skills" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhiyingzzhou-engineering-skills-engineering-skills-compact.svg" width="146" height="20"></a> — no description · 2026-07-15
 - <a href="https://github.com/zhiyingzzhou/olyq"><img alt="olyq" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhiyingzzhou-olyq-olyq-compact.svg" width="35" height="20"></a> — Olyq 是一个开源浏览器扩展。它把多模型对话、助手、话题、网页上下文、页面工具、Paint、搜索、远程 MCP、记忆和备份放进浏览器侧边栏，让你在当前网页旁边完成阅读、核验、写作、提取、图片生成和工具调用。 · 2026-07-13
