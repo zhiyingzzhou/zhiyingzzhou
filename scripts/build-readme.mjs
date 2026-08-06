@@ -29,9 +29,14 @@ const FEATURED = ["ZhongAnTech/zarm","Kishanjvaghela/react-native-cardview","zhi
 const token = process.env.GITHUB_TOKEN;
 const LINK_ASSET_DIR = "assets/repo-links";
 const LINK_ASSET_BASE = `https://raw.githubusercontent.com/${USER}/${USER}/main/${LINK_ASSET_DIR}`;
-const LINK_COLOR = "#d2451e";
+const LINK_COLORS = {
+  light: "#d2451e",
+  dark: "#e85d3a",
+};
 const LINK_FONT_SIZE = 16;
 const LINK_LINE_HEIGHT = 20;
+const LINK_PADDING_X = 5;
+const LINK_PADDING_Y = 2;
 const LINK_MAX_WIDTH = {
   compact: 220,
   featured: 320,
@@ -103,7 +108,7 @@ const textWidth = (text) => {
     if (/[-/\\]/.test(ch)) return sum + 0.42;
     return sum + 0.58;
   }, 0);
-  return Math.ceil(units * LINK_FONT_SIZE + 2);
+  return Math.ceil(units * LINK_FONT_SIZE + 8);
 };
 
 /**
@@ -191,16 +196,22 @@ const layoutRepoLabel = (label, maxWidth) => {
  */
 const repoLink = (repo, label, mode = "compact") => {
   const lines = layoutRepoLabel(label, LINK_MAX_WIDTH[mode]);
-  const width = Math.max(...lines.map(textWidth));
-  const height = lines.length * LINK_LINE_HEIGHT;
+  const width = Math.max(...lines.map(textWidth)) + LINK_PADDING_X * 2;
+  const height = lines.length * LINK_LINE_HEIGHT + LINK_PADDING_Y * 2;
   const file = `${slug(repo.full_name)}-${slug(label)}-${mode}.svg`;
   const safeLabel = esc(label);
   const tspans = lines
-    .map((line, i) => `    <tspan x="0" y="${16 + i * LINK_LINE_HEIGHT}">${esc(line)}</tspan>`)
+    .map((line, i) => `    <tspan x="${LINK_PADDING_X}" y="${18 + i * LINK_LINE_HEIGHT}">${esc(line)}</tspan>`)
     .join("\n");
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="${safeLabel}">
   <title>${safeLabel}</title>
-  <text fill="${LINK_COLOR}" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif" font-size="${LINK_FONT_SIZE}" font-weight="700">
+  <style>
+    text { fill: ${LINK_COLORS.light}; }
+    @media (prefers-color-scheme: dark) {
+      text { fill: ${LINK_COLORS.dark}; }
+    }
+  </style>
+  <text font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif" font-size="${LINK_FONT_SIZE}" font-weight="700">
 ${tspans}
   </text>
 </svg>
@@ -263,6 +274,26 @@ for (const slug of FEATURED) {
  */
 const clean = (s) => (s ?? "").replace(/\|/g, "/").trim();
 
+/**
+ * Keeps table rows compact without losing the repository's main intent.
+ *
+ * @param {string|null|undefined} s
+ * @param {number} max
+ * @returns {string}
+ */
+const brief = (s, max = 108) => {
+  const text = clean(s) || "no description";
+  let units = 0;
+  let out = "";
+  for (const ch of text) {
+    units += /[\u3000-\u9fff]/u.test(ch) ? 2 : 1;
+    if (units > max) break;
+    out += ch;
+  }
+  if (out.length === text.length) return text;
+  return out.replace(/[\s,，。.;；:：、-]+$/u, "") + "…";
+};
+
 // Body for <!--START_SECTION:projects--> — selected repositories.
 const projectRows = featured
   .map((r) => {
@@ -280,9 +311,23 @@ const recent = own
   .slice(0, 5)
   .map(
     (r) =>
-      `- ${repoLink(r, r.name)} — ${clean(r.description) || "no description"} · ${r.pushed_at.slice(0, 10)}`,
+      `  <tr>
+    <td width="26%" valign="top">${repoLink(r, r.name)}</td>
+    <td valign="top">${esc(brief(r.description))}</td>
+    <td width="14%" valign="top"><sub>${esc(r.language ?? "—")}</sub></td>
+    <td width="15%" align="right" valign="top"><sub><code>${r.pushed_at.slice(0, 10)}</code></sub></td>
+  </tr>`,
   )
   .join("\n");
+const recentTable = `<table width="100%">
+  <tr>
+    <th align="left" width="26%">Repository</th>
+    <th align="left">Focus</th>
+    <th align="left" width="14%">Stack</th>
+    <th align="right" width="15%">Updated</th>
+  </tr>
+${recent}
+</table>`;
 
 // Body for <!--START_SECTION:summary--> — the one-line headline stats.
 const summary = `\`${num(totalStars)}\` stars earned · \`${num(own.length)}\` public repos · \`${num(
@@ -308,7 +353,7 @@ const replace = (key, body) => {
   md = md.replace(re, `$1\n${body}\n$2`);
 };
 replace("projects", projectRows);
-replace("recent", recent);
+replace("recent", recentTable);
 replace("summary", summary);
 writeLinkAssets();
 writeFileSync("README.md", md);

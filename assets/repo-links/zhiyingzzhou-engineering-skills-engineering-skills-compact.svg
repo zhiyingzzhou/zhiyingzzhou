@@ -1,6 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="146" height="20" viewBox="0 0 146 20" role="img" aria-label="engineering-skills">
+<svg xmlns="http://www.w3.org/2000/svg" width="162" height="24" viewBox="0 0 162 24" role="img" aria-label="engineering-skills">
   <title>engineering-skills</title>
-  <text fill="#d2451e" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700">
-    <tspan x="0" y="16">engineering-skills</tspan>
+  <style>
+    text { fill: #d2451e; }
+    @media (prefers-color-scheme: dark) {
+      text { fill: #e85d3a; }
+    }
+  </style>
+  <text font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700">
+    <tspan x="5" y="18">engineering-skills</tspan>
   </text>
 </svg>

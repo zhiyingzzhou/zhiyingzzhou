@@ -1,6 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="106" height="20" viewBox="0 0 106 20" role="img" aria-label="zhiyingzzhou">
+<svg xmlns="http://www.w3.org/2000/svg" width="122" height="24" viewBox="0 0 122 24" role="img" aria-label="zhiyingzzhou">
   <title>zhiyingzzhou</title>
-  <text fill="#d2451e" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700">
-    <tspan x="0" y="16">zhiyingzzhou</tspan>
+  <style>
+    text { fill: #d2451e; }
+    @media (prefers-color-scheme: dark) {
+      text { fill: #e85d3a; }
+    }
+  </style>
+  <text font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700">
+    <tspan x="5" y="18">zhiyingzzhou</tspan>
   </text>
 </svg>
