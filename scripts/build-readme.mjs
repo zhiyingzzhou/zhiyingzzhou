@@ -31,7 +31,11 @@ const LINK_ASSET_DIR = "assets/repo-links";
 const LINK_ASSET_BASE = `https://raw.githubusercontent.com/${USER}/${USER}/main/${LINK_ASSET_DIR}`;
 const LINK_COLOR = "#d2451e";
 const LINK_FONT_SIZE = 16;
-const LINK_HEIGHT = 20;
+const LINK_LINE_HEIGHT = 20;
+const LINK_MAX_WIDTH = {
+  compact: 220,
+  featured: 320,
+};
 const linkAssets = new Map();
 
 /**
@@ -99,7 +103,81 @@ const textWidth = (text) => {
     if (/[-/\\]/.test(ch)) return sum + 0.42;
     return sum + 0.58;
   }, 0);
-  return Math.ceil(units * LINK_FONT_SIZE + 8);
+  return Math.ceil(units * LINK_FONT_SIZE + 2);
+};
+
+/**
+ * Splits a repository label into natural line-sized chunks. Owner/repo labels
+ * prefer the slash as the first break so long organisation names do not force
+ * GitHub's Markdown table image scaling to shrink the whole SVG.
+ *
+ * @param {string} label
+ * @param {number} maxWidth
+ * @returns {string[]}
+ */
+const layoutRepoLabel = (label, maxWidth) => {
+  const splitLongPart = (part) => {
+    const lines = [];
+    let line = "";
+    for (const ch of part) {
+      const candidate = line + ch;
+      if (line && textWidth(candidate) > maxWidth) {
+        lines.push(line);
+        line = ch;
+      } else {
+        line = candidate;
+      }
+    }
+    if (line) lines.push(line);
+    return lines;
+  };
+
+  const greedyLines = (part) => {
+    const tokens = [];
+    let token = "";
+    for (const ch of part) {
+      token += ch;
+      if (ch === "-" || ch === "_") {
+        tokens.push(token);
+        token = "";
+      }
+    }
+    if (token) tokens.push(token);
+
+    const lines = [];
+    let line = "";
+    for (const token of tokens) {
+      if (textWidth(token) > maxWidth) {
+        if (line) {
+          lines.push(line);
+          line = "";
+        }
+        lines.push(...splitLongPart(token));
+        continue;
+      }
+
+      const candidate = line + token;
+      if (line && textWidth(candidate) > maxWidth) {
+        lines.push(line);
+        line = token;
+      } else {
+        line = candidate;
+      }
+    }
+    if (line) lines.push(line);
+    return lines;
+  };
+
+  const slash = label.indexOf("/");
+  if (slash >= 0 && textWidth(label) > maxWidth) {
+    const owner = label.slice(0, slash + 1);
+    const repo = label.slice(slash + 1);
+    if (textWidth(owner) <= maxWidth) {
+      return [owner, ...greedyLines(repo)];
+    }
+  }
+
+  return greedyLines(label);
 };
 
 /**
@@ -108,19 +186,27 @@ const textWidth = (text) => {
  *
  * @param {any} repo GitHub repository object.
  * @param {string} label Visible repository label.
+ * @param {"compact"|"featured"} mode Link layout mode.
  * @returns {string}
  */
-const repoLink = (repo, label) => {
-  const width = textWidth(label);
-  const file = `${slug(repo.full_name)}-${slug(label)}.svg`;
+const repoLink = (repo, label, mode = "compact") => {
+  const lines = layoutRepoLabel(label, LINK_MAX_WIDTH[mode]);
+  const width = Math.max(...lines.map(textWidth));
+  const height = lines.length * LINK_LINE_HEIGHT;
+  const file = `${slug(repo.full_name)}-${slug(label)}-${mode}.svg`;
   const safeLabel = esc(label);
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${LINK_HEIGHT}" viewBox="0 0 ${width} ${LINK_HEIGHT}" role="img" aria-label="${safeLabel}">
+  const tspans = lines
+    .map((line, i) => `    <tspan x="0" y="${16 + i * LINK_LINE_HEIGHT}">${esc(line)}</tspan>`)
+    .join("\n");
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="${safeLabel}">
   <title>${safeLabel}</title>
-  <text x="0" y="16" fill="${LINK_COLOR}" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif" font-size="${LINK_FONT_SIZE}" font-weight="700">${safeLabel}</text>
+  <text fill="${LINK_COLOR}" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif" font-size="${LINK_FONT_SIZE}" font-weight="700">
+${tspans}
+  </text>
 </svg>
 `;
   linkAssets.set(file, svg);
-  return `<a href="${esc(repo.html_url)}"><img alt="${safeLabel}" src="${LINK_ASSET_BASE}/${file}" width="${width}" height="${LINK_HEIGHT}"></a>`;
+  return `<a href="${esc(repo.html_url)}"><img alt="${safeLabel}" src="${LINK_ASSET_BASE}/${file}" width="${width}" height="${height}"></a>`;
 };
 
 /**
@@ -168,27 +254,26 @@ for (const slug of FEATURED) {
 }
 
 /**
- * Makes a repository description safe for a Markdown table cell: a literal "|"
- * inside a description would end the cell early and break the table layout.
+ * Makes a repository description safe for generated Markdown/HTML snippets:
+ * a literal "|" is noisy in table-oriented contexts and is not meaningful
+ * inside repository copy.
  *
  * @param {string|null|undefined} s
  * @returns {string}
  */
 const clean = (s) => (s ?? "").replace(/\|/g, "/").trim();
 
-// Body for <!--START_SECTION:projects--> — the "Selected work" table.
-const projectRows = [
-  "| Project | What it is | Stars | Language | Updated |",
-  "| --- | --- | --: | --- | --- |",
-  ...featured.map(
-    (r) => {
-      const label = r.owner.login.toLowerCase() === USER.toLowerCase() ? r.name : r.full_name;
-      return `| ${repoLink(r, label)} | ${clean(r.description)} | ${num(r.stargazers_count)} | ${
-        r.language ?? "—"
-      } | ${r.pushed_at.slice(0, 10)} |`;
-    },
-  ),
-].join("\n");
+// Body for <!--START_SECTION:projects--> — selected repositories.
+const projectRows = featured
+  .map((r) => {
+    const label = r.owner.login.toLowerCase() === USER.toLowerCase() ? r.name : r.full_name;
+    return `> ${repoLink(r, label, "featured")}
+>
+> \`${num(r.stargazers_count)}\` stars · ${esc(r.language ?? "—")} · updated \`${r.pushed_at.slice(0, 10)}\`
+>
+> ${esc(clean(r.description)) || "no description"}`;
+  })
+  .join("\n\n");
 
 // Body for <!--START_SECTION:recent--> — the five most recently pushed repos.
 const recent = own
