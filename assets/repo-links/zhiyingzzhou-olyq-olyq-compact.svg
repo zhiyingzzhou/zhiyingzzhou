@@ -1,12 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="51" height="24" viewBox="0 0 51 24" role="img" aria-label="olyq">
-  <title>olyq</title>
-  <style>
-    text { fill: #d2451e; }
-    @media (prefers-color-scheme: dark) {
-      text { fill: #e85d3a; }
-    }
-  </style>
-  <text font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700">
-    <tspan x="5" y="18">olyq</tspan>
-  </text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="51" height="24" aria-label="olyq" role="img" viewBox="0 0 51 24"><title>olyq</title><style>text{fill:#d2451e}@media (prefers-color-scheme:dark){text{fill:#e85d3a}}</style><text font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700"><tspan x="5" y="18">olyq</tspan></text></svg>

@@ -1,12 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="186" height="24" viewBox="0 0 186 24" role="img" aria-label="sonarqube-issue-mcp">
-  <title>sonarqube-issue-mcp</title>
-  <style>
-    text { fill: #d2451e; }
-    @media (prefers-color-scheme: dark) {
-      text { fill: #e85d3a; }
-    }
-  </style>
-  <text font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700">
-    <tspan x="5" y="18">sonarqube-issue-mcp</tspan>
-  </text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="186" height="24" aria-label="sonarqube-issue-mcp" role="img" viewBox="0 0 186 24"><title>sonarqube-issue-mcp</title><style>text{fill:#d2451e}@media (prefers-color-scheme:dark){text{fill:#e85d3a}}</style><text font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700"><tspan x="5" y="18">sonarqube-issue-mcp</tspan></text></svg>
