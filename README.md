@@ -17,7 +17,7 @@
 <div align="center">
 
 <!--START_SECTION:summary-->
-`213` stars earned · `47` public repos · `29` followers · refreshed `2026-08-21 01:57 UTC`
+`213` stars earned · `47` public repos · `29` followers · refreshed `2026-08-21 07:07 UTC`
 <!--END_SECTION:summary-->
 
 </div>
@@ -94,7 +94,7 @@ I build self-hosted products and browser tooling — TypeScript end to end, Clou
 
 > <a href="https://github.com/zhiyingzzhou/renewlet"><img alt="renewlet" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhiyingzzhou-renewlet-renewlet-featured.svg" width="89" height="24"></a>
 >
-> `189` stars · TypeScript · updated `2026-08-20`
+> `189` stars · TypeScript · updated `2026-08-21`
 >
 > Self-hosted subscription tracker for recurring renewals, with timezone-aware reminders, ten notification channels, budgets, and spending insights.
 
@@ -155,16 +155,16 @@ I build self-hosted products and browser tooling — TypeScript end to end, Clou
     <th align="right" width="15%">Updated</th>
   </tr>
   <tr>
-    <td width="26%" valign="top"><a href="https://github.com/zhiyingzzhou/zhiyingzzhou"><img alt="zhiyingzzhou" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhiyingzzhou-zhiyingzzhou-zhiyingzzhou-compact.svg" width="122" height="24"></a></td>
-    <td valign="top">no description</td>
-    <td width="14%" valign="top"><sub>JavaScript</sub></td>
-    <td width="15%" align="right" valign="top"><sub><code>2026-08-20</code></sub></td>
-  </tr>
-  <tr>
     <td width="26%" valign="top"><a href="https://github.com/zhiyingzzhou/renewlet"><img alt="renewlet" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhiyingzzhou-renewlet-renewlet-compact.svg" width="89" height="24"></a></td>
     <td valign="top">Self-hosted subscription tracker for recurring renewals, with timezone-aware reminders, ten notification cha…</td>
     <td width="14%" valign="top"><sub>TypeScript</sub></td>
-    <td width="15%" align="right" valign="top"><sub><code>2026-08-20</code></sub></td>
+    <td width="15%" align="right" valign="top"><sub><code>2026-08-21</code></sub></td>
+  </tr>
+  <tr>
+    <td width="26%" valign="top"><a href="https://github.com/zhiyingzzhou/zhiyingzzhou"><img alt="zhiyingzzhou" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhiyingzzhou-zhiyingzzhou-zhiyingzzhou-compact.svg" width="122" height="24"></a></td>
+    <td valign="top">no description</td>
+    <td width="14%" valign="top"><sub>JavaScript</sub></td>
+    <td width="15%" align="right" valign="top"><sub><code>2026-08-21</code></sub></td>
   </tr>
   <tr>
     <td width="26%" valign="top"><a href="https://github.com/zhiyingzzhou/engineering-skills"><img alt="engineering-skills" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhiyingzzhou-engineering-skills-engineering-skills-compact.svg" width="162" height="24"></a></td>
