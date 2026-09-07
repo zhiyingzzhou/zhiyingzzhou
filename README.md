@@ -17,7 +17,7 @@
 <div align="center">
 
 <!--START_SECTION:summary-->
-`231` stars earned · `47` public repos · `29` followers · refreshed `2026-09-07 12:32 UTC`
+`237` stars earned · `47` public repos · `29` followers · refreshed `2026-09-07 21:31 UTC`
 <!--END_SECTION:summary-->
 
 </div>
@@ -82,7 +82,7 @@ I build self-hosted products and browser tooling — TypeScript end to end, Clou
 <!--START_SECTION:projects-->
 > <a href="https://github.com/ZhongAnTech/zarm"><img alt="ZhongAnTech/zarm" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhongantech-zarm-zhongantech-zarm-featured.svg" width="171" height="24"></a>
 >
-> `1,726` stars · TypeScript · updated `2026-09-01`
+> `1,726` stars · TypeScript · updated `2026-09-07`
 >
 > 基于 React 的移动端 UI 组件库
 
@@ -94,7 +94,7 @@ I build self-hosted products and browser tooling — TypeScript end to end, Clou
 
 > <a href="https://github.com/zhiyingzzhou/renewlet"><img alt="renewlet" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhiyingzzhou-renewlet-renewlet-featured.svg" width="89" height="24"></a>
 >
-> `207` stars · TypeScript · updated `2026-09-07`
+> `213` stars · TypeScript · updated `2026-09-07`
 >
 > Self-hosted subscription tracker for recurring renewals, with timezone-aware reminders, ten notification channels, budgets, and spending insights.
 
