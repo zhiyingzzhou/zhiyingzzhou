@@ -17,7 +17,7 @@
 <div align="center">
 
 <!--START_SECTION:summary-->
-`271` stars earned · `47` public repos · `29` followers · refreshed `2026-09-23 04:45 UTC`
+`273` stars earned · `47` public repos · `29` followers · refreshed `2026-09-23 11:36 UTC`
 <!--END_SECTION:summary-->
 
 </div>
@@ -94,13 +94,13 @@ I build self-hosted products and browser tooling — TypeScript end to end, Clou
 
 > <a href="https://github.com/zhiyingzzhou/renewlet"><img alt="renewlet" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhiyingzzhou-renewlet-renewlet-featured.svg" width="89" height="24"></a>
 >
-> `247` stars · TypeScript · updated `2026-09-23`
+> `248` stars · TypeScript · updated `2026-09-23`
 >
 > Self-hosted subscription tracker for recurring renewals, with timezone-aware reminders, ten notification channels, budgets, and spending insights.
 
 > <a href="https://github.com/zhiyingzzhou/LyRN"><img alt="LyRN" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhiyingzzhou-lyrn-lyrn-featured.svg" width="62" height="24"></a>
 >
-> `8` stars · JavaScript · updated `2018-10-09`
+> `9` stars · JavaScript · updated `2018-10-09`
 >
 > A React-Native app simulting tongcheng App run on both Android and iOS
 <!--END_SECTION:projects-->
@@ -164,7 +164,7 @@ I build self-hosted products and browser tooling — TypeScript end to end, Clou
     <td width="26%" valign="top"><a href="https://github.com/zhiyingzzhou/zhiyingzzhou"><img alt="zhiyingzzhou" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhiyingzzhou-zhiyingzzhou-zhiyingzzhou-compact.svg" width="122" height="24"></a></td>
     <td valign="top">no description</td>
     <td width="14%" valign="top"><sub>JavaScript</sub></td>
-    <td width="15%" align="right" valign="top"><sub><code>2026-09-22</code></sub></td>
+    <td width="15%" align="right" valign="top"><sub><code>2026-09-23</code></sub></td>
   </tr>
   <tr>
     <td width="26%" valign="top"><a href="https://github.com/zhiyingzzhou/engineering-skills"><img alt="engineering-skills" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhiyingzzhou-engineering-skills-engineering-skills-compact.svg" width="162" height="24"></a></td>
