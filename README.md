@@ -17,7 +17,7 @@
 <div align="center">
 
 <!--START_SECTION:summary-->
-`287` stars earned · `47` public repos · `31` followers · refreshed `2026-10-01 13:14 UTC`
+`288` stars earned · `47` public repos · `31` followers · refreshed `2026-10-01 22:41 UTC`
 <!--END_SECTION:summary-->
 
 </div>
@@ -94,7 +94,7 @@ I build self-hosted products and browser tooling — TypeScript end to end, Clou
 
 > <a href="https://github.com/zhiyingzzhou/renewlet"><img alt="renewlet" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhiyingzzhou-renewlet-renewlet-featured.svg" width="89" height="24"></a>
 >
-> `262` stars · TypeScript · updated `2026-09-29`
+> `263` stars · TypeScript · updated `2026-09-29`
 >
 > Self-hosted subscription tracker for recurring renewals, with timezone-aware reminders, ten notification channels, budgets, and spending insights.
 
