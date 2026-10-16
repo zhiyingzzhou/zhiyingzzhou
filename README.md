@@ -17,7 +17,7 @@
 <div align="center">
 
 <!--START_SECTION:summary-->
-`307` stars earned · `47` public repos · `30` followers · refreshed `2026-10-16 04:31 UTC`
+`307` stars earned · `47` public repos · `30` followers · refreshed `2026-10-16 11:24 UTC`
 <!--END_SECTION:summary-->
 
 </div>
@@ -88,7 +88,7 @@ I build self-hosted products and browser tooling — TypeScript end to end, Clou
 
 > <a href="https://github.com/Kishanjvaghela/react-native-cardview"><img alt="Kishanjvaghela/react-native-cardview" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/kishanjvaghela-react-native-cardview-kishanjvaghela-react-native-cardview-featured.svg" width="330" height="24"></a>
 >
-> `507` stars · JavaScript · updated `2022-12-08`
+> `506` stars · JavaScript · updated `2022-12-08`
 >
 > Native CardView for react-native (All Android version and iOS)
 
@@ -158,7 +158,7 @@ I build self-hosted products and browser tooling — TypeScript end to end, Clou
     <td width="26%" valign="top"><a href="https://github.com/zhiyingzzhou/zhiyingzzhou"><img alt="zhiyingzzhou" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhiyingzzhou-zhiyingzzhou-zhiyingzzhou-compact.svg" width="122" height="24"></a></td>
     <td valign="top">no description</td>
     <td width="14%" valign="top"><sub>JavaScript</sub></td>
-    <td width="15%" align="right" valign="top"><sub><code>2026-10-15</code></sub></td>
+    <td width="15%" align="right" valign="top"><sub><code>2026-10-16</code></sub></td>
   </tr>
   <tr>
     <td width="26%" valign="top"><a href="https://github.com/zhiyingzzhou/renewlet"><img alt="renewlet" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhiyingzzhou-renewlet-renewlet-compact.svg" width="89" height="24"></a></td>
