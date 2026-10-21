@@ -17,7 +17,7 @@
 <div align="center">
 
 <!--START_SECTION:summary-->
-`310` stars earned · `47` public repos · `30` followers · refreshed `2026-10-20 21:37 UTC`
+`310` stars earned · `47` public repos · `30` followers · refreshed `2026-10-21 04:46 UTC`
 <!--END_SECTION:summary-->
 
 </div>
@@ -82,7 +82,7 @@ I build self-hosted products and browser tooling — TypeScript end to end, Clou
 <!--START_SECTION:projects-->
 > <a href="https://github.com/ZhongAnTech/zarm"><img alt="ZhongAnTech/zarm" src="https://raw.githubusercontent.com/zhiyingzzhou/zhiyingzzhou/main/assets/repo-links/zhongantech-zarm-zhongantech-zarm-featured.svg" width="171" height="24"></a>
 >
-> `1,725` stars · TypeScript · updated `2026-09-07`
+> `1,726` stars · TypeScript · updated `2026-09-07`
 >
 > 基于 React 的移动端 UI 组件库
 
